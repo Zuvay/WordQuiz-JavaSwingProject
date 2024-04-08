@@ -27,13 +27,13 @@ public class WordQuiz extends JFrame{
         setSize(600, 500);
         setTitle("WordQuiz");
 
-        getQuestion();
+        getQuestion(); //Soruları getiren method.
 
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    checkAnswer(button1,english);
+                    checkAnswer(button1,english); //Cevabın doğru olup olmadığını kontrol eden method. Sonunda ilgili db işlemlerini yapar ve getQuestion'u tekrar çağırır.
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -112,21 +112,21 @@ public class WordQuiz extends JFrame{
     }
 
     private void checkAnswer(JButton selectedButton, String correctAnswer) throws SQLException {
-        if (selectedButton.getText().equals(correctAnswer)){
+        if (selectedButton.getText().equals(correctAnswer)){ //Seçilen buton doğru cevaba yani english değişkenine eş mi?
             statementLabel.setText("Doğru cevap");
-            streak+=1;
+            streak+=1; //Doğru yapılan her soru için seri 1 arttırılır. (High score mantığında tekrar db'li bir işlem yapılabilir)
             streakLabel.setText("Art arda Doğru sayısı: " + streak);
             SelectQuery selectQuery = new SelectQuery();
-            selectQuery.insertQueryToCorrectTable(turkish, correctAnswer);
-            selectQuery.deleteQuery(english);
+            selectQuery.insertQueryToCorrectTable(turkish, correctAnswer); //Doğru işaretlendiğinde satırın ilgili db'e eklenmesi
+            selectQuery.deleteQuery(english); //Doğru bilinen satırın ana tablodan çıkarılması.
             getQuestion();
         }else{
             statementLabel.setText("Yanlış cevap! Doğrusu => " + correctAnswer);
             lastStreak.setText("Son seri sayısı: " + streak);
-            streak=0;
+            streak=0; //Yanlış bilindiğinde seri sıfırlanır.
             streakLabel.setText(String.valueOf(streak));
             SelectQuery selectQuery = new SelectQuery();
-            selectQuery.insertQueryToInCorrectTable(turkish,correctAnswer);
+            selectQuery.insertQueryToInCorrectTable(turkish,correctAnswer); //Yanlış bilinen satırı yanlışlar listesine eklemek
             getQuestion();
         }
     }
