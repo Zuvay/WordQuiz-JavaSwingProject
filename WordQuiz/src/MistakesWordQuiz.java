@@ -118,15 +118,13 @@ public class MistakesWordQuiz extends JFrame{
             streakLabel.setText("Art arda Doğru sayısı: " + streak);
             SelectQuery selectQuery = new SelectQuery();
             selectQuery.insertQueryToCorrectTable(turkish, correctAnswer);
-            selectQuery.deleteQuery(english);
+            selectQuery.deleteQueryFromIncorrectTable(english);
             getQuestion();
         }else{
             statementLabel.setText("Yanlış cevap! Doğrusu => " + correctAnswer);
             lastStreak.setText("Son seri sayısı: " + streak);
             streak=0;
             streakLabel.setText(String.valueOf(streak));
-            SelectQuery selectQuery = new SelectQuery();
-            selectQuery.insertQueryToInCorrectTable(turkish,correctAnswer);
             getQuestion();
         }
     }

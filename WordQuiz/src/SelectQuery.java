@@ -174,6 +174,33 @@ public class SelectQuery {
         }
     }
 
+    public void deleteQueryFromIncorrectTable(String englishWord) throws SQLException {
+        Connection connection = null;
+        DbHelper helper = new DbHelper();
+
+        PreparedStatement statement = null;
+        ResultSet resultSet;
+
+        try {
+            connection = helper.getConnection();
+            String sql = "DELETE FROM dictionary.incorrect_words where e_words=?;";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, englishWord);
+            statement.executeUpdate();
+            System.out.println("Doğru bilinen kayıt ana tablodan çıkarıldı");
+        } catch (SQLException exception) {
+            helper.showErrorException(exception);
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+
 
     //Getter'lar
     public String getTurkish() {
