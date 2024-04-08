@@ -27,13 +27,13 @@ public class MistakesWordQuiz extends JFrame{
         setSize(600, 500);
         setTitle("WordQuiz");
 
-        getQuestion();
+        getQuestion(); //Sorular gelmeye başlar.
 
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    checkAnswer(button1,english);
+                    checkAnswer(button1,english); //Cevabı kontrol eder ve getQuestion() metodunu tekrar çalıştırır.
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -70,7 +70,7 @@ public class MistakesWordQuiz extends JFrame{
             }
         });
 
-        backMainMenu.addActionListener(new ActionListener() {
+        backMainMenu.addActionListener(new ActionListener() { //Ana menüye dön tuşu
             @Override
             public void actionPerformed(ActionEvent e) {
                 MistakesWordQuiz.this.setVisible(false);
@@ -111,21 +111,21 @@ public class MistakesWordQuiz extends JFrame{
         }
     }
 
-    private void checkAnswer(JButton selectedButton, String correctAnswer) throws SQLException {
+    private void checkAnswer(JButton selectedButton, String correctAnswer) throws SQLException { //Cevabın doğruluğunu kontrol eden fonksiyon
         if (selectedButton.getText().equals(correctAnswer)){
             statementLabel.setText("Doğru cevap");
             streak+=1;
             streakLabel.setText("Art arda Doğru sayısı: " + streak);
             SelectQuery selectQuery = new SelectQuery();
-            selectQuery.insertQueryToCorrectTable(turkish, correctAnswer);
-            selectQuery.deleteQueryFromIncorrectTable(english);
+            selectQuery.insertQueryToCorrectTable(turkish, correctAnswer); //Doğru bilindiğinde ilgili satır doğrular listesine gider.
+            selectQuery.deleteQueryFromIncorrectTable(english); //Ve mevcut tablodan çıkarılır ki tekrar gözükmesin.
             getQuestion();
         }else{
             statementLabel.setText("Yanlış cevap! Doğrusu => " + correctAnswer);
             lastStreak.setText("Son seri sayısı: " + streak);
             streak=0;
             streakLabel.setText(String.valueOf(streak));
-            getQuestion();
+            getQuestion(); //Yanlış bilindiğinde herhangi bir eksiltme olmaz ve sorular tekrar gelmeye başlar. Değişen tek şey anlık streak miktarı olur.
         }
     }
 }
