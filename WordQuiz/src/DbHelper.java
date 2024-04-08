@@ -3,7 +3,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 public class DbHelper {
     private String userName ="root";
-    private String password ="phytonile";
+    private String password ="***";
     private String dbUrl ="jdbc:mysql://localhost:3306/dictionary";
 
     public Connection getConnection() throws SQLException {
