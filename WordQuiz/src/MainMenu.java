@@ -18,9 +18,9 @@ public class MainMenu extends JFrame{
 
         startWordQuizButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                MainMenu.this.setVisible(false); // Ana menüyü gizle
-                WordQuiz wordQuiz = null; // WordQuiz penceresini oluştur
+            public void actionPerformed(ActionEvent e) { //Normal WordQuiz'i açmak için
+                MainMenu.this.setVisible(false); // Ana menüyü kapat
+                WordQuiz wordQuiz = null;
                 try {
                     wordQuiz = new WordQuiz();
                 } catch (SQLException ex) {
@@ -28,10 +28,10 @@ public class MainMenu extends JFrame{
                 }
                 wordQuiz.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 wordQuiz.setLocationRelativeTo(null);
-                wordQuiz.setVisible(true); // WordQuiz penceresini göster
+                wordQuiz.setVisible(true); // WordQuiz penceresini aç
             }
         });
-        wordQuizFromMistakesButton.addActionListener(new ActionListener() {
+        wordQuizFromMistakesButton.addActionListener(new ActionListener() { //Yanlışlardan WordQuiz'i açmak için
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainMenu.this.setVisible(false);
@@ -46,7 +46,7 @@ public class MainMenu extends JFrame{
                 mistakesWordQuiz.setVisible(true);
             }
         });
-        wordsILearnedButton.addActionListener(new ActionListener() {
+        wordsILearnedButton.addActionListener(new ActionListener() { //Öğrenilen kelimeler penceresini açmak için
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainMenu.this.setVisible(false);
@@ -57,7 +57,7 @@ public class MainMenu extends JFrame{
                 learnedWords.setVisible(true);
             }
         });
-        myMistakesButton.addActionListener(new ActionListener() {
+        myMistakesButton.addActionListener(new ActionListener() { //Yanlış bilinen kelimeler listesini açmak için
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainMenu.this.setVisible(false);
