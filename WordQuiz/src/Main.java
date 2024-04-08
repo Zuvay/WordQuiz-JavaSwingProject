@@ -10,9 +10,9 @@ public class Main {
             public void run() {
                 MainMenu mainMenu = null;
                 mainMenu = new MainMenu();
-                mainMenu.setVisible(true);
-                mainMenu.setLocationRelativeTo(null);
-                mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                mainMenu.setVisible(true); //menüyü görünür yap
+                mainMenu.setLocationRelativeTo(null); //menüyü tam merkezde aç
+                mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //çarpı tuşuyla uygulamayı bitir
             }
         });
 
