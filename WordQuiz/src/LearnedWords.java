@@ -15,38 +15,36 @@ public class LearnedWords extends JFrame {
 
         DbHelper dbHelper = null;
         try {
-            // Veritabanından veri al
+            // Verileri alma
             dbHelper = new DbHelper();
             Connection connection = dbHelper.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT t_words, e_words FROM correct_words");
 
-            // Tablo modeli oluştur
+            // tablonun hatlarını ayarlama
             DefaultTableModel tableModel = new DefaultTableModel();
             tableModel.addColumn("Türkçe Kelime");
             tableModel.addColumn("İngilizce Kelime");
 
-            // ResultSet'tan verileri tabloya aktar
+            // Verileri tabloya ekleme
             while (resultSet.next()) {
                 String turkceKelime = resultSet.getString("t_words");
                 String ingilizceKelime = resultSet.getString("e_words");
                 tableModel.addRow(new Object[]{turkceKelime, ingilizceKelime});
             }
 
-            // JTable oluştur ve tablo modelini ata
+            // Tabloyu oluşturmak
             table1 = new JTable(tableModel);
 
-            // Tabloyu JScrollPane içine yerleştir
             JScrollPane scrollPane = new JScrollPane(table1);
 
-            // JPanel oluştur ve JScrollPane'i ekle
-            panel1 = new JPanel();
+            
+            panel1 = new JPanel(); //Paneli oluştur ve scrollPane'ye ekle
             panel1.add(scrollPane);
             panel1.add(BackMainMenu);
-
-
-            // JPanel'i JFrame'e ekle
-            add(panel1);
+            
+            add(panel1); //Paneli Frame'e ekle
+            
         } catch (SQLException exception) {
             dbHelper.showErrorException(exception);
         }
@@ -56,7 +54,7 @@ public class LearnedWords extends JFrame {
                 LearnedWords.this.setVisible(false);
                 MainMenu mainMenu  = null;
                 mainMenu = new MainMenu();
-                mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Çarpı tuşuyla kapat
                 mainMenu.setLocationRelativeTo(null);
                 mainMenu.setVisible(true);
             }
