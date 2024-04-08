@@ -15,43 +15,39 @@ public class MyMistakes extends JFrame {
 
         DbHelper dbHelper = null;
         try {
-            // Veritabanından veri al
+            // Verileri al
             dbHelper = new DbHelper();
             Connection connection = dbHelper.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT t_words, e_words FROM incorrect_words");
 
-            // Tablo modeli oluştur
+            // Tablo içeriğini oluşturmak için model
             DefaultTableModel tableModel = new DefaultTableModel();
             tableModel.addColumn("Türkçe Kelime");
             tableModel.addColumn("İngilizce Kelime");
 
-            // ResultSet'tan verileri tabloya aktar
+            // Verileri tabloya aktarma
             while (resultSet.next()) {
                 String turkceKelime = resultSet.getString("t_words");
                 String ingilizceKelime = resultSet.getString("e_words");
                 tableModel.addRow(new Object[]{turkceKelime, ingilizceKelime});
             }
 
-            // JTable oluştur ve tablo modelini ata
+            //Tabloyu oluştur. Scrollpane'i oluştur. Tabloyu Scrollpane içine al.
             table1 = new JTable(tableModel);
-
-            // Tabloyu JScrollPane içine yerleştir
             JScrollPane scrollPane = new JScrollPane(table1);
-
-            // JPanel oluştur ve JScrollPane'i ekle
             panel1 = new JPanel();
+            
             panel1.add(scrollPane);
-
             panel1.add(BackMainMenu);
 
-
-            // JPanel'i JFrame'e ekle
+            // Paneli frame'e ekle
             add(panel1);
+            
         } catch (SQLException exception) {
             dbHelper.showErrorException(exception);
         }
-        BackMainMenu.addActionListener(new ActionListener() {
+        BackMainMenu.addActionListener(new ActionListener() { //Ana menüye dönme tuşu
             @Override
             public void actionPerformed(ActionEvent e) {
                 MyMistakes.this.setVisible(false);
