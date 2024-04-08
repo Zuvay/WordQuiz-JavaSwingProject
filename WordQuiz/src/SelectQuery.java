@@ -20,9 +20,9 @@ public class SelectQuery {
         try {
             connection = dbHelper.getConnection();
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT t_words, e_words FROM dictionary_table ORDER BY RAND() LIMIT 1");
+            resultSet = statement.executeQuery("SELECT t_words, e_words FROM dictionary_table ORDER BY RAND() LIMIT 1"); //Rastgele bir satır seç
             if (resultSet.next()) {
-                turkish = resultSet.getString("t_words");
+                turkish = resultSet.getString("t_words"); //Türkçesini ve ingilizcesini ayrı olarak ata. Doğrulama için bu değişkenleri kullanıyoruz.
                 english = resultSet.getString("e_words");
             } else {
                 System.out.println("ResultSet boş.");
@@ -37,7 +37,7 @@ public class SelectQuery {
 
         }
     }
-    public void selectQuesitonFromMistakes() throws SQLException {
+    public void selectQuesitonFromMistakes() throws SQLException { //Yukarıdaki işlemin aynısı yalnızca farklı tablodan seçim yapıyor.
 
         Connection connection = null;
         DbHelper dbHelper = new DbHelper();
@@ -71,9 +71,9 @@ public class SelectQuery {
         DbHelper dbHelper = new DbHelper();
         try (Connection connection = dbHelper.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT e_words FROM dictionary_table ORDER BY RAND() LIMIT 3")) {
+             ResultSet resultSet = statement.executeQuery("SELECT e_words FROM dictionary_table ORDER BY RAND() LIMIT 3")) { //Yanlış olan butonlar için ingilizce kelimeler seç
 
-            ArrayList<String> englishWordsList = new ArrayList<>();
+            ArrayList<String> englishWordsList = new ArrayList<>(); //Kelimeleri ArrayList içine at
             int count = 0;
             while (resultSet.next() && count < 3) {
                 englishWordsList.add(resultSet.getString("e_words"));
@@ -81,19 +81,18 @@ public class SelectQuery {
             }
 
             if (englishWordsList.size() >= 3) {
-                englishOne = englishWordsList.get(0);
+                englishOne = englishWordsList.get(0); //Her bir buton için bir kelime ata.
                 englishTwo = englishWordsList.get(1);
                 englishThree = englishWordsList.get(2);
             } else {
                 throw new SQLException("Yeterli sayıda İngilizce kelime bulunamadı.");
             }
         } catch (SQLException exception) {
-            // SQLException'ı daha anlamlı bir şekilde işleyin veya iletişim kutuları gibi bir kullanıcı arabirimiyle kullanıcıya geri bildirim sağlayın
             dbHelper.showErrorException(exception);
         }
     }
 
-    public void insertQueryToCorrectTable(String turkishWord,String englishWord) throws SQLException{
+    public void insertQueryToCorrectTable(String turkishWord,String englishWord) throws SQLException{ //Doğru bilinen sorudaki cümleleri doğrular tablosuna ekle
         Connection connection = null;
         DbHelper helper = new DbHelper();
 
@@ -120,7 +119,7 @@ public class SelectQuery {
         }
     }
 
-    public void insertQueryToInCorrectTable(String turkishWord,String englishWord) throws SQLException{
+    public void insertQueryToInCorrectTable(String turkishWord,String englishWord) throws SQLException{ //Yanlış bilinen sorudaki cümleleri yanlışlar tablosuna ekle
         Connection connection = null;
         DbHelper helper = new DbHelper();
 
@@ -148,7 +147,7 @@ public class SelectQuery {
     }
 
 
-    public void deleteQuery(String englishWord) throws SQLException {
+    public void deleteQuery(String englishWord) throws SQLException { //Doğru bilindiyse ilgili satırı ana tablodan sil. Tekrar karşımıza çıkmaması için.
         Connection connection = null;
         DbHelper helper = new DbHelper();
 
@@ -174,7 +173,7 @@ public class SelectQuery {
         }
     }
 
-    public void deleteQueryFromIncorrectTable(String englishWord) throws SQLException {
+    public void deleteQueryFromIncorrectTable(String englishWord) throws SQLException { //Yanlışlar kısmında soru çözerken doğru bildiğimizde ilgili cümleyi yanlışlar listesinden çıkar.
         Connection connection = null;
         DbHelper helper = new DbHelper();
 
