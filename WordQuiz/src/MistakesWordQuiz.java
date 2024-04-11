@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;.
+import java.util.List;
 
 public class MistakesWordQuiz extends JFrame{
     private JPanel QuizPanel;
