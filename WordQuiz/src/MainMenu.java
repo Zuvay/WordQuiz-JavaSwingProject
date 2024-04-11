@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
+import java.sql.SQLException;.
 
 public class MainMenu extends JFrame{
     private JButton wordsILearnedButton;
