@@ -20,20 +20,18 @@ public class MistakesWordQuiz extends JFrame{
     private String english;
     private String turkish;
     private int streak=0;
-
-
     MistakesWordQuiz() throws SQLException {
         add(QuizPanel);
         setSize(600, 500);
-        setTitle("WordQuiz");
+        setTitle("Mistakes WordQuiz");
 
-        getQuestion(); //Sorular gelmeye başlar.
+        getQuestion(); //Soruları getiren method.
 
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    checkAnswer(button1,english); //Cevabı kontrol eder ve getQuestion() metodunu tekrar çalıştırır.
+                    processAnswer(button1,english); //Cevabın doğru olup olmadığını kontrol eden method. Sonunda ilgili db işlemlerini yapar ve getQuestion'u tekrar çağırır.
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -43,7 +41,7 @@ public class MistakesWordQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    checkAnswer(button2,english);
+                    processAnswer(button2,english);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -53,7 +51,7 @@ public class MistakesWordQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    checkAnswer(button3,english);
+                    processAnswer(button3,english);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -63,14 +61,13 @@ public class MistakesWordQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    checkAnswer(button4,english);
+                    processAnswer(button4,english);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
             }
         });
-
-        backMainMenu.addActionListener(new ActionListener() { //Ana menüye dön tuşu
+        backMainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MistakesWordQuiz.this.setVisible(false);
@@ -82,11 +79,9 @@ public class MistakesWordQuiz extends JFrame{
             }
         });
     }
-
-
     private void getQuestion() throws SQLException{
         SelectQuery selectQuery = new SelectQuery();
-        selectQuery.selectQuesitonFromMistakes();
+        selectQuery.selectQuesiton();
         turkish = selectQuery.getTurkish();
         english = selectQuery.getEnglish();
 
@@ -110,22 +105,46 @@ public class MistakesWordQuiz extends JFrame{
             buttons[i].setText(variables[i]);
         }
     }
-
-    private void checkAnswer(JButton selectedButton, String correctAnswer) throws SQLException { //Cevabın doğruluğunu kontrol eden fonksiyon
-        if (selectedButton.getText().equals(correctAnswer)){
-            statementLabel.setText("Doğru cevap");
-            streak+=1;
-            streakLabel.setText("Art arda Doğru sayısı: " + streak);
-            SelectQuery selectQuery = new SelectQuery();
-            selectQuery.insertQueryToCorrectTable(turkish, correctAnswer); //Doğru bilindiğinde ilgili satır doğrular listesine gider.
-            selectQuery.deleteQueryFromIncorrectTable(english); //Ve mevcut tablodan çıkarılır ki tekrar gözükmesin.
-            getQuestion();
-        }else{
-            statementLabel.setText("Yanlış cevap! Doğrusu => " + correctAnswer);
-            lastStreak.setText("Son seri sayısı: " + streak);
-            streak=0;
-            streakLabel.setText(String.valueOf(streak));
-            getQuestion(); //Yanlış bilindiğinde herhangi bir eksiltme olmaz ve sorular tekrar gelmeye başlar. Değişen tek şey anlık streak miktarı olur.
+    private void processAnswer(JButton selectedButton, String english) throws SQLException {
+        //Seçilen buton doğru cevaba yani english değişkenine eş mi?
+        if (selectedButton.getText().equals(english)){
+            whenAnswerIsTrue();
+        }
+        else{
+            whenAnswerIsFalse();
         }
     }
+    private void whenAnswerIsTrue() throws SQLException{
+        streak+=1; //Doğru yapılan her soru için seri 1 arttırılır. (High score mantığında tekrar db'li bir işlem yapılabilir)
+
+        LabelManager setLabelText = new LabelManager();
+        //Label'lar düzenlenir
+        LabelManager.setLabelText(statementLabel, MessageManager.SUCCESS_MESSAGE.getValue());
+        LabelManager.setLabelText(streakLabel, MessageManager.STREAK_MESSAGE.getValue() + streak);
+
+        //Doğru işaretlendiğinde satırın ilgili db'e eklenmesi
+        CorrectCondition insertToCorrectTable = new CorrectCondition();
+        insertToCorrectTable.insertQuery(turkish, english);
+
+        //Bu kısıma göre abstract class'ın isimlendirmesinin yanlış olduğunun farkındayım.
+        IncorrectCondition deleteFromMistakesTable = new IncorrectCondition();
+        deleteFromMistakesTable.deleteQuery(english); //Doğru bilinen satırın yanlışlar tablosundan çıkarılması.
+
+        getQuestion();
+    }
+    private void whenAnswerIsFalse() throws SQLException{
+        streak=0;
+        //Label'lar güncellenir
+        LabelManager.setLabelText(statementLabel,MessageManager.FAILURE_MESSAGE.getValue() + english);
+        LabelManager.setLabelText(lastStreak,(MessageManager.LAST_STREAK_MESSAGE.getValue()) +streak);
+
+        //Yanlış bilindiğinde seri sıfırlanır.
+        LabelManager.setLabelText(streakLabel,"0");
+
+        System.out.println("İlgili kelime yanlışlar tablosunda kaldı");
+
+        //Yeni soru çağırılır
+        getQuestion();
+    }
 }
+

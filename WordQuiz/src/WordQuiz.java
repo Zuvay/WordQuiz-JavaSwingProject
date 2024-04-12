@@ -20,8 +20,6 @@ public class WordQuiz extends JFrame{
     private String english;
     private String turkish;
     private int streak=0;
-
-
     WordQuiz() throws SQLException {
         add(QuizPanel);
         setSize(600, 500);
@@ -33,33 +31,7 @@ public class WordQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if(isAnswerTrue(button1,english)){ //Cevabın doğru olup olmadığını kontrol eden method. Sonunda ilgili db işlemlerini yapar ve getQuestion'u tekrar çağırır.
-                        statementLabel.setText("Doğru cevap");
-                        streak+=1; //Doğru yapılan her soru için seri 1 arttırılır. (High score mantığında tekrar db'li bir işlem yapılabilir)
-                        streakLabel.setText("Art arda Doğru sayısı: " + streak);
-
-                        CorrectCondition insertToCorrectTable = new CorrectCondition();
-                        insertToCorrectTable.insertQuery(turkish, english); //Doğru işaretlendiğinde satırın ilgili db'e eklenmesi
-
-                        CorrectCondition deleteFromMainTable = new CorrectCondition();
-                        deleteFromMainTable.deleteQuery(english); //Doğru bilinen satırın ana tablodan çıkarılması.
-
-                        getQuestion();
-                    }else{
-                        statementLabel.setText("Yanlış cevap! Doğrusu => " + english);
-
-                        lastStreak.setText("Son seri sayısı: " + streak);
-
-                        streak=0; //Yanlış bilindiğinde seri sıfırlanır.
-
-                        streakLabel.setText(String.valueOf(streak));
-
-
-                        IncorrectCondition insertWordToIncorrectTable = new IncorrectCondition();
-                        insertWordToIncorrectTable.insertQuery(turkish,english); //Yanlış bilinen satırı yanlışlar listesine eklemek
-
-                        getQuestion();
-                    }
+                    processAnswer(button1,english); //Cevabın doğru olup olmadığını kontrol eden method. Sonunda ilgili db işlemlerini yapar ve getQuestion'u tekrar çağırır.
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -69,7 +41,7 @@ public class WordQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    isAnswerTrue(button2,english);
+                    processAnswer(button2,english);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -79,7 +51,7 @@ public class WordQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    isAnswerTrue(button3,english);
+                    processAnswer(button3,english);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -89,13 +61,12 @@ public class WordQuiz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    isAnswerTrue(button4,english);
+                    processAnswer(button4,english);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
             }
         });
-
         backMainMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,8 +79,6 @@ public class WordQuiz extends JFrame{
             }
         });
     }
-
-
     private void getQuestion() throws SQLException{
         SelectQuery selectQuery = new SelectQuery();
         selectQuery.selectQuesiton();
@@ -136,12 +105,41 @@ public class WordQuiz extends JFrame{
             buttons[i].setText(variables[i]);
         }
     }
-
-    private boolean isAnswerTrue(JButton selectedButton, String english) throws SQLException {
-        if (selectedButton.getText().equals(english)){ //Seçilen buton doğru cevaba yani english değişkenine eş mi?
-            return true;
-        }else{
-            return false;
+    private void processAnswer(JButton selectedButton, String english) throws SQLException {
+        //Seçilen buton doğru cevaba yani english değişkenine eş mi?
+        if (selectedButton.getText().equals(english)){
+            whenAnswerIsTrue();
+        }
+        else{
+            whenAnswerIsFalse();
         }
     }
+    private void whenAnswerIsTrue() throws SQLException{
+        streak+=1; //Doğru yapılan her soru için seri 1 arttırılır. (High score mantığında tekrar db'li bir işlem yapılabilir)
+
+        LabelManager setLabelText = new LabelManager();
+        LabelManager.setLabelText(statementLabel, MessageManager.SUCCESS_MESSAGE.getValue());
+        LabelManager.setLabelText(streakLabel, MessageManager.STREAK_MESSAGE.getValue() + streak);
+
+        CorrectCondition insertToCorrectTable = new CorrectCondition();
+        insertToCorrectTable.insertQuery(turkish, english); //Doğru işaretlendiğinde satırın ilgili db'e eklenmesi
+
+        CorrectCondition deleteFromMainTable = new CorrectCondition();
+        deleteFromMainTable.deleteQuery(english); //Doğru bilinen satırın ana tablodan çıkarılması.
+
+        getQuestion();
+    }
+    private void whenAnswerIsFalse() throws SQLException{
+        streak=0; //Yanlış bilindiğinde seri sıfırlanır.
+
+        LabelManager.setLabelText(statementLabel,MessageManager.FAILURE_MESSAGE.getValue() + english);
+        LabelManager.setLabelText(lastStreak,(MessageManager.LAST_STREAK_MESSAGE.getValue()) +streak);
+        LabelManager.setLabelText(streakLabel,"0");
+
+        IncorrectCondition insertWordToIncorrectTable = new IncorrectCondition();
+        insertWordToIncorrectTable.insertQuery(turkish,english); //Yanlış bilinen satırı yanlışlar listesine eklemek
+
+        getQuestion();
+    }
 }
+
