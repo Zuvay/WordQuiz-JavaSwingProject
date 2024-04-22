@@ -7,11 +7,11 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MainMenu mainMenu = null;
-                mainMenu = new MainMenu();
-                mainMenu.setVisible(true); //menüyü görünür yap
-                mainMenu.setLocationRelativeTo(null); //menüyü tam merkezde aç
-                mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //çarpı tuşuyla uygulamayı bitir
+                LoginPage loginPage = null;
+                loginPage = new LoginPage();
+                loginPage.setVisible(true); //login sayfasını görünür yap
+                loginPage.setLocationRelativeTo(null); //pencereyi tam merkezde aç
+                loginPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //çarpı tuşuyla uygulamayı bitir
             }
         });
 

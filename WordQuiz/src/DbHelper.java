@@ -7,7 +7,7 @@ public class DbHelper {
     private String dbUrl ="jdbc:mysql://localhost:3306/dictionary";
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(dbUrl, userName, password);
+        return DriverManager.getConnection(dbUrl,userName, password);
     }
 
     public void showErrorException(SQLException exception){
