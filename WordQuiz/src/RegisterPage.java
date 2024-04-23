@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-
 public class RegisterPage extends JFrame{
     private JTextField usernameField;
     private JPasswordField passwordField1;
@@ -11,7 +10,6 @@ public class RegisterPage extends JFrame{
     private JButton registerButton;
     private JLabel warningLabel;
     private JPanel registerPagePanel;
-    private JButton goMainButton;
     private JButton goLogin;
     private JLabel usernameLabel;
     private JLabel passwordLabel;

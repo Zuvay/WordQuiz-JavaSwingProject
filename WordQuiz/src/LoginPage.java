@@ -12,8 +12,6 @@ public class LoginPage extends JFrame{
     private JLabel usernameLabel;
     private JLabel passwordLabel;
     private JPanel LoginPagePanel;
-    private JButton goMain;
-
     public LoginPage() {
         add(LoginPagePanel);
         setSize(600, 500);
