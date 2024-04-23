@@ -4,6 +4,16 @@
 
 [![YouTube Tanıtım Videosu](https://img.youtube.com/vi/KY_ftgNEGV8/0.jpg)](https://www.youtube.com/watch?v=KY_ftgNEGV8)
 
+## Yeni Gelen Özellikler 
+Kayıt olma ve giriş yapma sistemleri eklendi
+- Kayıt olurken boş bırakılan yerler için uyarı alırsınız
+- Giriş yaparken yanlış girdiğiniz bölüm için uyarı alırsınız
+  NOT: Kayıt olurken şifre ve kullanıcı adı için yalnızca boş bırakılmaması üzerine sınırlılıklar getirilmiştir. İlerleyen dönemlerde çeşitli protokoller eklenebilir.
+
+## Gelecekte Eklenmesi Planlananlar
+- Her bir kullanıcı için ayrı tablo oluşturulması. Bu sayede profile özel WordQuiz yapılması.
+- Kullanıcılar arası farkın tutulması için Liderlik Tablosu eklenmesi.
+
 ## Tanıtım
 
 Bu uygulama, Java Swing kullanılarak geliştirilmiş bir kelime eşleştirme uygulamasıdır. Kullanıcılar, veritabanından alınan kelimelerle eşleşme yaparak kelime bilgilerini pekiştirebilirler.
