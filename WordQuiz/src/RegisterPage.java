@@ -27,15 +27,9 @@ public class RegisterPage extends JFrame{
                 String password = passwordField1.getText();
                 String confirmPassword = passwordField2.getText();
 
-                if (username.isEmpty()) {
-                    warningLabel.setText("Username required");
-                } else if (password.isEmpty()) {
-                    warningLabel.setText("Password required");
-                } else if (email.isEmpty()) {
-                    warningLabel.setText("Email required");
-                } else if (!password.equals(confirmPassword)) {
-                    warningLabel.setText("Passwords doesn't match");
-                } else {
+                if (isRegisterInformationFalse(username, email, password, confirmPassword, warningLabel)) {
+                    System.out.println("Kayıt oluşturulamadı");
+                }else{
                     try {
                         RegisterAndLogin register = new RegisterAndLogin();
                         register.Register(username, email, password);
@@ -43,18 +37,6 @@ public class RegisterPage extends JFrame{
                         throw new RuntimeException(ex);
                     }
                 }
-            }
-        });
-        goMainButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                RegisterPage.this.setVisible(false); // Login menüsünü kapat
-                MainMenu mainMenu = null;
-                mainMenu = new MainMenu();
-
-                mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                mainMenu.setLocationRelativeTo(null);
-                mainMenu.setVisible(true); // main menü penceresini aç
             }
         });
         goLogin.addActionListener(new ActionListener() {
@@ -69,5 +51,20 @@ public class RegisterPage extends JFrame{
                 loginPage.setVisible(true); // login penceresini aç
             }
         });
+    }
+
+    public static boolean isRegisterInformationFalse(String username,String email,String password,String confirmPassword,JLabel warningLabel){
+        if (username.isEmpty()) {
+            warningLabel.setText("Username required");
+        } else if (password.isEmpty()) {
+            warningLabel.setText("Password required");
+        } else if (email.isEmpty()) {
+            warningLabel.setText("Email required");
+        } else if (!password.equals(confirmPassword)) {
+            warningLabel.setText("Passwords doesn't match");
+        }else{
+            return false;
+        }
+        return true;
     }
 }

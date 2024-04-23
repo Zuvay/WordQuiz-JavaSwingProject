@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class LoginPage extends JFrame{
     private JTextField usernameField;
@@ -29,16 +30,26 @@ public class LoginPage extends JFrame{
                 registerPage.setVisible(true); // register penceresini aç
             }
         });
-        goMain.addActionListener(new ActionListener() {
+        logInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LoginPage.this.setVisible(false); // Login menüsünü kapat
-                MainMenu mainMenu = null;
-                mainMenu = new MainMenu();
+                String username = usernameField.getText();
+                String password= passwordField.getText();
 
-                mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                mainMenu.setLocationRelativeTo(null);
-                mainMenu.setVisible(true); // main menü penceresini aç
+                RegisterAndLogin login = new RegisterAndLogin();
+                try {
+                    if (login.isLoginable(username,password,warningLabel)){
+                        LoginPage.this.setVisible(false); // Login menüsünü kapat
+                        MainMenu mainMenu = null;
+                        mainMenu = new MainMenu();
+
+                        mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        mainMenu.setLocationRelativeTo(null);
+                        mainMenu.setVisible(true); // main menü penceresini aç
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
