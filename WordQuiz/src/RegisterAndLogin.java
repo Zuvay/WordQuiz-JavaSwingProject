@@ -9,7 +9,6 @@ public class RegisterAndLogin {
         DbHelper dbHelper = new DbHelper();
         Connection connection = null;
         PreparedStatement statement = null;
-
         try {
             connection = dbHelper.getConnection();
             String sql = "INSERT INTO dictionary.users (username, email, password) values (?,?,?)";
@@ -33,7 +32,6 @@ public class RegisterAndLogin {
     }
     public boolean isLoginable(String usernameField, String passwordField, JLabel warningLabel) throws SQLException{
         DbHelper dbHelper = new DbHelper();
-
         try (Connection connection = dbHelper.getConnection()) {
             String sql = "SELECT username,password FROM dictionary.users";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -42,9 +40,10 @@ public class RegisterAndLogin {
             //Verileri hash map şeklinde tutmak
             HashMap<String, String> users = new HashMap<String, String>();
             while (resultSet.next()) {
-                //username ve şifreleri tanımlayalım
+                //username ve şifreleri tanımlamak
                 String username = resultSet.getString("username");
                 String password = resultSet.getString("password");
+                //Döngüdeki her bir veriyi HashMap'e ekle
                 users.put(username, password);
             }
 
