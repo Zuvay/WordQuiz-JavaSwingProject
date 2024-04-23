@@ -11,7 +11,7 @@ Bu uygulama, Java Swing kullanılarak geliştirilmiş bir kelime eşleştirme uy
 ## Özellikler
 
 - Veritabanından kelimelerin çekilmesi
-- Kelime eşleştirme oyunu
+- Kelimelerin uygun anlamlar ile eşleştirilmesi
 - Doğru cevaplanan kelimelerin doğrular veritabanına eklenmesi
 - Yanlış cevaplanan kelimelerin yanlışlar veritabanına eklenmesi
 - Yanlışlar bölümünden quiz yapabilme
@@ -28,6 +28,7 @@ Bu uygulama, Java Swing kullanılarak geliştirilmiş bir kelime eşleştirme uy
 
 - Java 8 veya üstü
 - MySQL veritabanı
+  NOT: Proje yalnızca local'de çalışmaktadır.
 
 ## İletişim
 
