@@ -130,7 +130,7 @@ public class WordQuiz extends JFrame{
         getQuestion();
     }
     private void whenAnswerIsFalse() throws SQLException{
-        streak=0; //Yanlış bilindiğinde seri sıfırlanır.
+        //Yanlış bilindiğinde seri sıfırlanır.
 
         LabelManager.setLabelText(statementLabel,MessageManager.FAILURE_MESSAGE.getValue() + english);
         LabelManager.setLabelText(lastStreak,(MessageManager.LAST_STREAK_MESSAGE.getValue()) +streak);
