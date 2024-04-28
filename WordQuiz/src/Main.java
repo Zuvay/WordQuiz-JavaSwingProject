@@ -14,6 +14,5 @@ public class Main {
                 loginPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //çarpı tuşuyla uygulamayı bitir
             }
         });
-
     }
 }

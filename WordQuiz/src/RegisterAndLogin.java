@@ -18,6 +18,36 @@ public class RegisterAndLogin {
             statement.setString(3,password);
             statement.executeUpdate();
             System.out.println("Kayıt oluşturuldu");
+/*
+            BU KODLAR ÇALIŞIYOR FAKAT SONRAKİ ADIMI BECEREMEDİĞİMDEN PROJENİN BU KISMI ASKIDA KALACAK
+
+            //Profil ile ilgili tabloların oluşturulması
+            // Kullanıcının kimlik bilgisini alalım
+            sql = "SELECT user_id FROM dictionary.users WHERE username = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next(); // İlk satıra git
+            int user_id = resultSet.getInt("user_id");
+
+            // Kullanıcının profil tablolarını belirleme
+            String createMainTableSQL = "CREATE TABLE dictionary.dictionary_table_" + user_id + " (id INT AUTO_INCREMENT, t_words VARCHAR(255), e_words VARCHAR(255), PRIMARY KEY (id), UNIQUE KEY (t_words, e_words))";
+            String createCorrectTableSQL = "CREATE TABLE dictionary.correctTable_" + user_id + " (id INT AUTO_INCREMENT, t_words VARCHAR(255), e_words VARCHAR(255), count INT, PRIMARY KEY (id), FOREIGN KEY (t_words, e_words) REFERENCES dictionary.dictionary_table_" + user_id + "(t_words, e_words))";
+            String createIncorrectTableSQL = "CREATE TABLE dictionary.incorrectTable_" + user_id + " (id INT AUTO_INCREMENT, t_words VARCHAR(255), e_words VARCHAR(255), count INT, PRIMARY KEY (id), FOREIGN KEY (t_words, e_words) REFERENCES dictionary.dictionary_table_" + user_id + "(t_words, e_words))";
+
+            // Tabloların oluşturulma emri
+            statement.executeUpdate(createMainTableSQL);
+            statement.executeUpdate(createCorrectTableSQL);
+            statement.executeUpdate(createIncorrectTableSQL);
+            System.out.println("Profil tabloları oluşturuldu");
+
+            // Yeni oluşturulan tabloya mainTable'daki verileri kopyala
+            String copyDataSQL = "INSERT INTO dictionary.dictionary_table_" + user_id + " SELECT * FROM dictionary.all_words";
+            statement.executeUpdate(copyDataSQL);
+            System.out.println("Tüm kelimelerin bulunduğu tablodaki veriler yeni tabloya kopyalandı");
+
+ */
+
         }catch (SQLException exception){
             dbHelper.showErrorException(exception);
         }finally {
@@ -28,7 +58,6 @@ public class RegisterAndLogin {
                 connection.close();
             }
         }
-
     }
     public boolean isLoginable(String usernameField, String passwordField, JLabel warningLabel) throws SQLException{
         DbHelper dbHelper = new DbHelper();

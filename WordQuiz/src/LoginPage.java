@@ -12,10 +12,13 @@ public class LoginPage extends JFrame{
     private JLabel usernameLabel;
     private JLabel passwordLabel;
     private JPanel LoginPagePanel;
+    private String username;
+    private String password;
     public LoginPage() {
         add(LoginPagePanel);
         setSize(600, 500);
         setTitle("Giriş Ekranı");
+
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -31,14 +34,14 @@ public class LoginPage extends JFrame{
         logInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
-                String password= passwordField.getText();
+                username = usernameField.getText();
+                password= passwordField.getText();
 
                 RegisterAndLogin login = new RegisterAndLogin();
                 try {
                     if (login.isLoginable(username,password,warningLabel)){
                         LoginPage.this.setVisible(false); // Login menüsünü kapat
-                        MainMenu mainMenu = null;
+                        MainMenu mainMenu;
                         mainMenu = new MainMenu();
 
                         mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
