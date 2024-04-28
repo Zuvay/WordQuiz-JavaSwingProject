@@ -8,10 +8,14 @@
 Kayıt olma ve giriş yapma sistemleri eklendi
 - Kayıt olurken boş bırakılan yerler için uyarı alırsınız
 - Giriş yaparken yanlış girdiğiniz bölüm için uyarı alırsınız
-  NOT: Kayıt olurken şifre ve kullanıcı adı için yalnızca boş bırakılmaması üzerine sınırlılıklar getirilmiştir. İlerleyen dönemlerde çeşitli protokoller eklenebilir.
+- Daha önceden kayıt yapılmış username ve mail adresleri için uyarı alırsınız
+- Geçersiz mail formatı için uyarı alırsınız
+- Şifreniz 6 basamaktan küçükse uyarı alırsınız
 
 ## Gelecekte Eklenmesi Planlananlar
 - Her bir kullanıcı için ayrı tablo oluşturulması. Bu sayede profile özel WordQuiz yapılması.
+  **NOT(Register işlemi ile her bir kişi için özel tablo oluşturulması özelliği getirildi fakat farklı bir problemden dolayı bu sistemi aktive edemedim. İlgili kodlar yorum satırları içerisinde alınmış durumda)*
+  
 - Kullanıcılar arası farkın tutulması için Liderlik Tablosu eklenmesi.
 
 ## Tanıtım
